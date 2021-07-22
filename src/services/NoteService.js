@@ -12,8 +12,12 @@ const get = (id) => {
     return httpClient.get(`/notes/${id}`);
 }
 
+const remove = (id) => {
+    return httpClient.delete(`/notes/${id}`);
+}
+
 const funcs = {
-    getAll, create, get
+    getAll, create, get, remove
 }
 
 export default funcs;

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import NoteService from "../services/NoteService";
 
 const NoteDetails = () => {
     const { id } = useParams();
     const[currentNote, setCurrentNote] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         const fetchNote = async () => {
@@ -17,7 +18,12 @@ const NoteDetails = () => {
             }
         }
         fetchNote(id);
-    }, [])
+    }, []);
+
+    const handleDelete = async () => {
+        const response = await NoteService.remove(id).catch(error => console.log("Something went wrong", error))
+        history.push("/");
+    }
 
     return (
         <div>
@@ -32,6 +38,7 @@ const NoteDetails = () => {
                         {currentNote.body}
                     </div>
                 </article>
+                <button onClick={handleDelete}>Delete</button>
             </div>
         </div>
     )
