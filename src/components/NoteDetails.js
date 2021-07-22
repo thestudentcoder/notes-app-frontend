@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router";
 import NoteService from "../services/NoteService";
+import Moment from "react-moment";
 
 const NoteDetails = () => {
     const { id } = useParams();
@@ -32,18 +33,23 @@ const NoteDetails = () => {
     return (
         <div>
             <div className="note-details main-content">
-                <article>
-                    <h5 className="text-capitalize primary-color">{currentNote.title}</h5>
-                    <div className="mb-3 font-italic metadata">
-                        <span>{currentNote.updatedAt}</span>
-                        <span className="text-capitalize">, {currentNote.category}</span>
+                {
+                    currentNote &&
+                    <div>
+                        <article>
+                            <h5 className="text-capitalize primary-color">{currentNote.title}</h5>
+                            <div className="mb-3 font-italic metadata">
+                                <Moment fromNow>{currentNote.updatedAt}</Moment>
+                                <span className="text-capitalize">, {currentNote.category}</span>
+                            </div>
+                            <div className="mb-3">
+                                {currentNote.body}
+                            </div>
+                        </article>
+                        <button onClick={handleEdit}>Edit</button>
+                        <button onClick={handleDelete} className="ml-3">Delete</button>
                     </div>
-                    <div className="mb-3">
-                        {currentNote.body}
-                    </div>
-                </article>
-                <button onClick={handleEdit}>Edit</button>
-                <button onClick={handleDelete} className="ml-3">Delete</button>
+                }
             </div>
         </div>
     )

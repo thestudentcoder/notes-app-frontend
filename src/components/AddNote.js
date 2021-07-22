@@ -9,9 +9,14 @@ const AddNote = () => {
     const [category, setCategory] = useState('programming');
     const history = useHistory();
     const { id } = useParams();
+    const [errors, setErrors] = useState(false);
 
     const saveNote = (e) => {
         e.preventDefault();
+        if (!title || !body) {
+            setErrors(true);
+            return;
+        }
         const note = {title, body, category, id}
         console.log('printing node', note);
         if (id) {
@@ -53,6 +58,7 @@ const AddNote = () => {
         <div className="create">
             <div className="text-center">
                 <h5>{id ? "Update a Note" : "Add a New Note"}</h5>
+                {errors && <span style={{ color: 'red', fontStyle: 'italic'}}>Please enter the required fields</span>}
             </div>
             <form>
                 <div className="form-group">
